@@ -1,32 +1,59 @@
 <template>
-    <div class="todo">
-      <strong>Select day:</strong> <input type="date" class="date">
-      <button class="iconButton">
-        <img src="../assets/plus.svg" class="icon" />
-      </button>
-      <div>
+  <div class="todo">
+    <div v-for="(day, index) in days" :key="index">
+      <div class="dayContainer">
+        <strong>Select day:</strong>
+        <input type="date" class="date">
+        <button class="iconButton" @click="addDay">
+          <img src="../assets/plus.svg" class="icon" />
+        </button>
+      </div>
+      <div class="taskContainer">
         <br>
         <strong>Tasks:</strong>
-        <button class="iconButton">
+        <button class="iconButton" @click="addTask(index)">
           <img src="../assets/plus.svg" class="icon" />
         </button>
         <div class="todoContainer">
-          <br><input type="time" class="time"> <input type="text" class="task">
-          <div class="doneButtonContainer">
-            <div class="centerContainer">
-              <button class="doneButton">
-                done
+          <div v-for="(task, taskIndex) in day.tasks" :key="taskIndex">
+            <br>
+            <input type="time" class="time">
+            <input type="text" class="task">
+            <div class="doneButtonContainer">
+              <div class="centerContainer">
+                <button class="doneButton">
+                  done
+                </button>
+              </div>
+              <button class="trashButton">
+                <img src="../assets/trash.svg" />
               </button>
             </div>
-            <button class="trashButton">
-              <img src="../assets/trash.svg" />
-            </button>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      days: [{ tasks: [{}] }], // Array para almacenar los componentes Select day y Task
+    };
+  },
+  methods: {
+    addDay() {
+      this.days.push({ tasks: [{}] });
+    },
+    addTask(dayIndex) {
+      this.days[dayIndex].tasks.push({});
+    },
+  },
+};
+</script>
+
   <style scoped>
   .todo {
     border: solid;

@@ -12,5 +12,4 @@ export async function signUp(signUpData) {
 
 export async function logout() {
   localStorage.removeItem('token')
-  navigate('/')
 }

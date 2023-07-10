@@ -2,21 +2,45 @@
   <div>
     <header>
       <div class="header-content">
-        <router-link to="/home" class="todos">Start</router-link>
+        <button v-if="hasToken" class="logout" @click="logout">Logout</button>
+        <router-link to="/" class="todos">Inicio</router-link>
         <h1 class="title">TO DO LIST</h1>
         <div class="buttonContainer">
-          <router-link to="signIn"><button class="singin"> Sign in</button></router-link>
-          <router-link to="signUp"><button> Sign up</button></router-link>
+          <router-link to="signIn"><button class="singin">Sign in</button></router-link>
+          <router-link to="signUp"><button>Sign up</button></router-link>
         </div>
       </div>
     </header>
     <footer>
       footer
     </footer>
+    <router-view></router-view>
   </div>
-  <router-view></router-view>
 </template>
 
+<script>
+import { logout } from './services/auth'; 
+
+export default {
+  computed: {
+    hasToken() {
+      const token = localStorage.getItem('token');
+      return token && token !== '';
+    },
+  },
+  methods: {
+    async logout() {
+      try {
+        await logout(); 
+        console.log("deslogeado");
+        this.$router.push('/'); 
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+};
+</script>
 <style scoped>
 header {
   background-color: blue;
@@ -60,5 +84,11 @@ footer {
 }
 .singin {
   margin-right: 10px;
+}
+.logout {
+  display: flex;
+  position: absolute;
+  left: 10px;
+  top: 14px;
 }
 </style>
