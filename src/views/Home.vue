@@ -1,6 +1,6 @@
 <template>
   <div class="todo">
-    <div v-for="(day, index) in days" :key="index">
+    <div v-for="(day, index) in days" :key="index" class="dayContainer">
       <div class="dayContainer">
         <strong>Select day:</strong>
         <input type="date" class="date">
@@ -111,6 +111,11 @@ export default {
     display: flex;
     justify-content: center;
   }
+
+  .dayContainer {
+
+  }
+  
   
   </style>
   
