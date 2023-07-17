@@ -4,6 +4,15 @@ import SignIn from "../components/SignIn.vue"
 import SignUp from "../components/SignUp.vue"
 import Index from "../views/Index.vue"
 
+function verificarToken(to, from, next) {
+  const token = localStorage.getItem("token"); 
+  if (token) {
+    next();
+  } else {
+    next("/");
+  }
+}
+
 const routes = [
       {
         path: '/',
@@ -15,6 +24,7 @@ const routes = [
         path: '/home',
         name: 'Home',
         component: Home,
+        beforeEnter: verificarToken
       },
       {
         path: '/SignIn',

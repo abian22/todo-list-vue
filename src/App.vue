@@ -11,36 +11,50 @@
         </div>
       </div>
     </header>
-    <footer>
-      footer
-    </footer>
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { logout } from './services/auth'; 
+import { logout } from './services/auth' 
 
 export default {
-  computed: {
-    hasToken() {
-      const token = localStorage.getItem('token');
-      return token && token !== '';
+  data() {
+    return {
+      hasToken: false,
+    }
+  },
+  mounted() {
+    this.checkToken() 
+  },
+  watch: {
+    $route() {
+      if ('Home') {
+        this.checkToken() 
+      }
     },
   },
   methods: {
-    async logout() {
+    checkToken() {
+      const token = localStorage.getItem('token')
+      this.hasToken = token
+    },
+    logout() {
       try {
-        await logout(); 
-        console.log("deslogeado");
-        this.$router.push('/'); 
+        logout() 
+        console.log("deslogeado")
+        this.hasToken = false
+        this.$router.push('/') 
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
-    }
+    },
   },
-};
+}
 </script>
+
+
 <style scoped>
 header {
   background-color: blue;

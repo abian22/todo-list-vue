@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="signUp">
+    <form @submit.prevent="doSignUp">
       <div>
         <label>Name:</label>
         <input type="text" id="name" v-model="name" />
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { signUp } from "../services/auth";
+import { signUp } from "../services/auth"
 
 export default {
   data() {
@@ -27,35 +27,30 @@ export default {
       name: "",
       email: "",
       password: "",
-    };
+    }
   },
   methods: {
-    async signUp() {
+    async doSignUp() {
       if (this.name && this.email && this.password) {
         try {
           const response = await signUp({
             name: this.name,
             email: this.email,
             password: this.password,
-          });
+          })
+          localStorage.setItem("token", response.data.token)
 
-          // Guardar el token en el localStorage
-          const token = response.data.token;
-          localStorage.setItem("token", token);
 
-          this.name = "";
-          this.email = "";
-          this.password = "";
-          this.$router.push("/home");
+          this.$router.push("/home")
         } catch (error) {
-          console.error(error);
+          console.error(error)
         }
       } else {
-        alert("Por favor, rellene todos los campos correctamente.");
+        alert("Por favor, rellene todos los campos correctamente.")
       }
     },
   },
-};
+}
 </script>
 
 <style></style>

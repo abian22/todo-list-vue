@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Iniciar sesión</h2>
-    <form @submit.prevent="login">
+    <form @submit.prevent="doLogin">
       <div>
         <label>Email:</label>
         <input type="text" id="email" v-model="email" />
@@ -26,28 +26,26 @@ export default {
     };
   },
   methods: {
-    async login() {
-  if (this.email && this.password) {
-    try {
-      const response = await login({
-        email: this.email,
-        password: this.password,
-      });
-      
-      // Guardar el token en el localStorage
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+    async doLogin() {
+      if (this.email && this.password) {
+        try {
+          const response = await login({
+            email: this.email,
+            password: this.password,
+          });
 
-      console.log("Token guardado:", token);
+          localStorage.setItem("token", response.data.token);
 
-      this.email = "";
-      this.password = "";
-      this.$router.push("/home");
-    } catch (error) {
-      console.error(error);
-    }
-  }
-},
-},
+          console.log("Token guardado:", response.data.token);
+
+          this.email = "";
+          this.password = "";
+          this.$router.push("/home");
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+  },
 };
 </script>
